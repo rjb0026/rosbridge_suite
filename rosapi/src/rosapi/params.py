@@ -194,7 +194,9 @@ def delete_param(node_name, name, params_glob):
 def get_param_names(params_glob):
     params = []
     nodes = get_nodes()
-
+    _node.get_logger().info("Search these nodes for params:")
+    for node in nodes:
+        _node.get_logger().info(str(node))
     for node in nodes:
         params.extend(get_node_param_names(node, params_glob))
 
@@ -226,10 +228,12 @@ def _get_param_names(node_name):
     if node_name == _parent_node_name:
         return []
 
+    _node.get_logger().info("Calling ListParameters service {}/list_parameters".format(node_name))
     client = _node.create_client(ListParameters, f"{node_name}/list_parameters")
 
     ready = client.wait_for_service(timeout_sec=5.0)
     if not ready:
+        _node.get_logger().error("ListParameters client for {} not ready".format(node_name))
         raise RuntimeError("Wait for list_parameters service timed out")
 
     request = ListParameters.Request()

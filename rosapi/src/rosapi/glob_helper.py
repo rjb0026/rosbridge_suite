@@ -23,8 +23,11 @@ def get_globs(node):
         ]
 
     topics_glob = get_param("topics_glob")
+    node.get_logger().info('topics glob: {}'.format(topics_glob))
     services_glob = get_param("services_glob")
+    node.get_logger().info('services glob: {}'.format(services_glob))
     params_glob = get_param("params_glob")
+    node.get_logger().info('params glob: {}'.format(params_glob))
     return Globs(topics_glob, services_glob, params_glob)
 
 
